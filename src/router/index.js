@@ -1,23 +1,42 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import accueil from '../views/Accueil.vue'
+import quiz from '../views/Quiz'
+import fingerPick from "../views/fingerPick";
+import NotFound from "../views/NotFound";
+import Tab from "../views/Tab";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Accueil',
+    component: accueil
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/quiz',
+    name: 'quiz',
+    component: quiz
+  },
+  {
+    path: '/training',
+    name: 'train',
+    component: fingerPick
+  },
+  {
+    path: "/tabs",
+    name: "TABS",
+    component: Tab
+  },
+
+    // error 404
+
+  {
+    path: "/:catchAll(.*)",
+    name: 'Not Found',
+    component: NotFound
+  },
 ]
 
 const router = new VueRouter({
