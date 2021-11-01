@@ -5,6 +5,7 @@ import quiz from '../views/Quiz'
 import fingerPick from "../views/fingerPick";
 import NotFound from "../views/NotFound";
 import Tab from "../views/Tab";
+import tabs_maker from "../components/tabs_maker";
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: "/tabs",
     name: "TABS",
     component: Tab
+  },
+  {
+    path: "/tabmaker",
+    name: "TM",
+    component: tabs_maker
   },
 
     // error 404
