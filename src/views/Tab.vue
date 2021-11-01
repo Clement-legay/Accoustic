@@ -12,8 +12,16 @@
             </p>
           </div>
           <div class="two_third">
-            <button class="btn" v-on:click="playing()" >play</button>
-            <button class="btn" v-on:click="playing()" >stop</button>
+            <v-select
+                v-model="choice"
+                item-text="name"
+                :items="music"
+                menu-props="auto"
+                label="Select Tab"
+                return-object
+            ></v-select>
+            <v-btn class="ma-2" v-on:click="interpreter()" outlined :loading="playing" :disabled="!choice" color="dark lighten-2">Play</v-btn>
+            <v-btn class="ma-2" v-on:click="stopAll()" outlined :disabled="!choice" color="dark lighten-2">Stop</v-btn>
           </div>
         </div>
       </div>
@@ -36,56 +44,55 @@ export default {
   },
   data() {
     return {
+      choice: null,
+
       corde1: Array,
       corde2: Array,
       corde3: Array,
       corde4: Array,
       music: Array,
-      intMusic: []
+      playing: false,
+      audio: []
     }
   },
   methods: {
     interpreter() {
-      for (let i =0; i < this.music.notes.length; i++) {
-        let obj = this.music.notes[i]
-        let decrypt = this.makeASound(obj[0], obj[1])
-        this.intMusic.push(decrypt)
+      this.audio = []
+      this.playing = true
+      for (let i =0; i < this.choice.notes.length; i++) {
+        setTimeout(() => {
+          let obj = this.choice.notes[i]
+          let decrypt = this.makeASound(obj[0], obj[1])
+          this.audio.push(new Audio(decrypt))
+          if (this.playing === true) {this.audio[i].play()}},
+           (i * this.choice.rythm))
       }
     },
     makeASound(note, corde) {
       if (corde === 1) {
-        return this.corde1[note].sound
+        return this.corde1[note].link
       } else if (corde === 2) {
-        return this.corde2[note].sound
+        return this.corde2[note].link
       } else if (corde === 3) {
-        return this.corde3[note].sound
+        return this.corde3[note].link
       } else {
-        return this.corde4[note].sound
+        return this.corde4[note].link
       }
     },
-    playing() {
-      for (let i = 0; i < this.music.notes.length; i++) {
-        let snd = this.intMusic[i]
-        if (i > 0) {
-          let preSnd = this.intMusic[i-1]
-          if (snd[0] === preSnd[0]) {
-            if (snd[1] === preSnd[1]) {
-              // pass
-            }
-          }
-        }
-        setTimeout(function () {snd.play()}, (i * 500))
-        setTimeout(function () {snd.pause()}, ((i * 500)+250))
+    stopAll() {
+      this.playing = false
+      let id = window.setTimeout(() => {}, 0)
+      while (id--) {
+        window.clearTimeout(id);
       }
-    }
+    },
   },
   mounted() {
     this.corde1 = frettes.data().cor1
     this.corde2 = frettes.data().cor2
     this.corde3 = frettes.data().cor3
     this.corde4 = frettes.data().cor4
-    this.music = tabulation.data().tabs[0]
-    this.interpreter()
+    this.music = tabulation.data().tabs
   }
 }
 </script>

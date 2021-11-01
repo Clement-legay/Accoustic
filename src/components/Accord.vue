@@ -1,6 +1,8 @@
 <template>
-  <div class="page">
-    <button class="btn hover" v-on:click="start(notes.data)"><i class="fas fa-play fa-3x"></i></button>
+  <div justify="center" class="page">
+    <v-btn elevation="7" fab large v-on:click="start(notes.data)" rounded small x-large>
+      <i class="fas fa-play fa-2x"></i>
+    </v-btn>
   </div>
 </template>
 

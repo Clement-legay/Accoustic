@@ -9,7 +9,7 @@
 <script>
 import HeaderComponentShort from "../components/HeaderComponentShort";
 import FooterComponent from "../components/FooterComponent";
-import Training from "../components/Training";
+import Training from "../components/Training2";
 
 export default {
   name: "fingerPick",

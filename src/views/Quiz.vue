@@ -1,31 +1,43 @@
 <template>
   <div id="Quiz">
     <HeaderComponentShort :theme="'SONO'"></HeaderComponentShort>
-    <main class="hoc container clear">
-      <div class="content">
-        <div class="group demo">
-          <div class="one_third first">
-            <h6>C'EST L'HEURE DE JOUER</h6>
-            <p>
-              Appuyez sur le bouton play pour écouter l'accord. En suite, choisissez quel note correspond au son, selon vous.<br/>
-              N'aillez pas peur plus vous pratiquer et plus vous accoutumer votre oreil musicale !
-            </p>
-          </div>
-          <div class="two_third">
-            <h6 class="right">Score: {{ score }}</h6>
-            <accords class="center" :notes="theOne"></accords>
-            <br>
-            <br>
-            <div id="holding" class="container">
-              <button class="btn one_quarter font-x2 btn_center" v-for="(answer, index) in answers" :key="answer.id" v-on:click="checkIf(index)">
-                {{ answer.name }}
-              </button>
-            </div>
-            <p v-if="Finally">Damn you right</p>
-          </div>
-        </div>
-      </div>
-    </main>
+        <v-container>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-sheet class="pa-6">
+                <h6>C'EST L'HEURE DE JOUER</h6>
+                <p class="font-x1 text-justify">
+                  Appuyez sur le bouton play pour écouter l'accord. En suite, choisissez quel note correspond au son, selon vous.<br/>
+                  N'aillez pas peur plus vous pratiquer et plus vous accoutumer votre oreil musicale !
+                </p>
+              </v-sheet>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-container cols="12">
+                <v-skeleton-loader class="mx-auto" type="card" v-show="!loaded"></v-skeleton-loader>
+                <v-card elevation="6" outlined shaped v-show="loaded" color="grey lighten-3">
+                  <v-row>
+                    <v-spacer></v-spacer>
+                    <v-col sm="4">
+                      <accords class="pa-2 center" :notes="theOne"></accords>
+                    </v-col>
+                    <v-col sm="4">
+                      <h6 class="text-right pa-md-2">Score: {{ score }}</h6>
+                    </v-col>
+                  </v-row>
+                  <br>
+                  <br>
+                  <v-row>
+                    <v-col sm="4" v-for="(answer, index) in answers" :key="index" class="pa-6 center">
+                      <v-btn color="green lighten-2" elevation="2" fab rounded v-on:click="checkIf(index)">{{answer.name}}</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-container>
+            </v-col>
+          </v-row>
+        </v-container>
+
     <FooterComponent></FooterComponent>
   </div>
 </template>
@@ -49,6 +61,7 @@ export default {
       theOne: Audio,
       answers: Array,
       Finally: false,
+      loaded: false,
       score: 0
     }
   },
@@ -90,6 +103,9 @@ export default {
     this.theOne = this.rand(this.test)
     this.answers = [this.rand(this.test), this.theOne, this.rand(this.test)]
     this.answers = this.shuffle(this.answers)
+    setTimeout(() => {
+      this.loaded = true
+    }, (5000))
   }
 }
 </script>

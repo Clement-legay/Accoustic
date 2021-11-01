@@ -1,60 +1,94 @@
 <template>
   <div id="finger'sTraining">
-    <main class="hoc container clear">
-      <div class="content">
-        <div class="group demo">
-          <div class="one_third first center">
+    <v-container>
+      <v-row>
+        <v-col cols="12" sm="6">
+          <v-sheet class="pa-6">
             <h6>C'EST L'HEURE DE JOUER</h6>
-            <p style="text-align: justify">
-              Appuyez sur le bouton play pour écouter l'accord. En suite, choisissez quel note correspond au son, selon vous.
+            <p class="font-x1 text-justify">
+              Appuyez sur le bouton play pour écouter l'accord. En suite, choisissez quel note correspond au son, selon vous.<br/>
               N'aillez pas peur plus vous pratiquer et plus vous accoutumer votre oreil musicale !
             </p>
-          </div>
-          <div class="two_third">
-            <h6 class="right">Score: {{ score }}</h6>
-            <Accord class="center" :notes="theOne"></Accord>
-            <br>
-            <div id="handle" class="center">
-              <ul class="cor" v-for="(corde, indexCor) in 4" :key="indexCor">
-                <li class="note" :class="indexCor">
-                  <button v-show="answer[indexCor] === 0" v-on:click="play(indexCor, 0)" style="background-image: url('./Img/signe.png'); width: 14%; height: 25%;"></button>
-                  <button v-show="answer[indexCor] !== 0" v-on:click="play(indexCor, 0)" style="width: 14%; height: 25%;"></button>
-                </li>
-                <li class="note" :class="indexCor">
-                  <button v-show="answer[indexCor] === 1" v-on:click="play(indexCor, 1)" style="background-image: url('./Img/signe.png'); width: 17%; height: 25%;"></button>
-                  <button v-show="answer[indexCor] !== 1" v-on:click="play(indexCor, 1)" style="width: 17%; height: 25%;"></button>
-                </li>
-                <li class="note" :class="indexCor">
-                  <button v-show="answer[indexCor] === 2" v-on:click="play(indexCor, 2)" style="background-image: url('./Img/signe.png'); width: 15%; height: 25%;"></button>
-                  <button v-show="answer[indexCor] !== 2" v-on:click="play(indexCor, 2)" style="width: 15%; height: 25%;"></button>
-                </li>
-                <li class="note" :class="indexCor">
-                  <button v-show="answer[indexCor] === 3" v-on:click="play(indexCor, 3)" style="background-image: url('./Img/signe.png'); width: 15%; height: 25%;"></button>
-                  <button v-show="answer[indexCor] !== 3" v-on:click="play(indexCor, 3)" style="width: 15%; height: 25%;"></button>
-                </li>
-                <li class="note" :class="indexCor">
-                  <button v-show="answer[indexCor] === 4" v-on:click="play(indexCor, 4)" style="background-image: url('./Img/signe.png'); width: 13.5%; height: 25%;"></button>
-                  <button v-show="answer[indexCor] !== 4" v-on:click="play(indexCor, 4)" style="width: 13.5%; height: 25%;"></button>
-                </li>
-                <li class="note" :class="indexCor">
-                  <button v-show="answer[indexCor] === 5" v-on:click="play(indexCor, 5)" style="background-image: url('./Img/signe.png'); width: 13%; height: 25%;"></button>
-                  <button v-show="answer[indexCor] !== 5" v-on:click="play(indexCor, 5)" style="width: 13%; height: 25%;"></button>
-                </li>
-                <li class="note" :class="indexCor">
-                  <button v-show="answer[indexCor] === 6" v-on:click="play(indexCor, 6)" style="background-image: url('./Img/signe.png'); width: 11.5%; height: 25%;"></button>
-                  <button v-show="answer[indexCor] !== 6" v-on:click="play(indexCor, 6)" style="width: 11.5%; height: 25%;"></button>
-                </li>
-                <br>
-              </ul>
-            </div>
-            <br>
-            <div class="right">
-              <button v-on:click="checkIf()" class="btn">NEXT</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+          </v-sheet>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-container cols="12">
+            <v-skeleton-loader class="mx-auto" type="card" v-show="!loaded"></v-skeleton-loader>
+            <v-card elevation="6" v-show="loaded" outlined shaped color="grey lighten-3">
+              <v-row>
+                <v-spacer></v-spacer>
+                <v-col sm="4">
+                  <Accord class="pa-2 center" :notes="theOne"></Accord>
+                </v-col>
+                <v-col sm="4">
+                  <h6 class="text-right pa-md-2">Score: {{ score }}</h6>
+                </v-col>
+              </v-row>
+              <br>
+              <div id="handle" class="center">
+                <v-slide-group v-for="(corde, index) in 4" :key="index" mandatory style="height: 25%">
+                  <v-slide-item v-slot="{ active, toggle }">
+                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 14%" @click="toggle" v-on:click="play(index, 0)">
+                      <v-scale-transition>
+                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                      </v-scale-transition>
+                    </v-card>
+                  </v-slide-item>
+                  <v-slide-item v-slot="{ active, toggle }">
+                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 17%" @click="toggle" v-on:click="play(index, 1)">
+                      <v-scale-transition>
+                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                      </v-scale-transition>
+                    </v-card>
+                  </v-slide-item>
+                  <v-slide-item v-slot="{ active, toggle }">
+                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 15%" @click="toggle" v-on:click="play(index, 2)">
+                      <v-scale-transition>
+                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                      </v-scale-transition>
+                    </v-card>
+                  </v-slide-item>
+                  <v-slide-item v-slot="{ active, toggle }">
+                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 15%" @click="toggle" v-on:click="play(index, 3)">
+                      <v-scale-transition>
+                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                      </v-scale-transition>
+                    </v-card>
+                  </v-slide-item>
+                  <v-slide-item v-slot="{ active, toggle }">
+                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 13.5%" @click="toggle" v-on:click="play(index, 4)">
+                      <v-scale-transition>
+                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                      </v-scale-transition>
+                    </v-card>
+                  </v-slide-item>
+                  <v-slide-item v-slot="{ active, toggle }">
+                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 13%" @click="toggle" v-on:click="play(index, 5)">
+                      <v-scale-transition>
+                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                      </v-scale-transition>
+                    </v-card>
+                  </v-slide-item>
+                  <v-slide-item v-slot="{ active, toggle }">
+                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 12.5%" @click="toggle" v-on:click="play(index, 6)">
+                      <v-scale-transition>
+                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                      </v-scale-transition>
+                    </v-card>
+                  </v-slide-item>
+                </v-slide-group>
+
+              <!--              c'est fini-->
+              </div>
+              <br>
+              <div class="right">
+                <v-btn class="ma-2" v-on:click="checkIf()" outlined color="dark lighten-2">Next</v-btn>
+              </div>
+            </v-card>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -79,6 +113,8 @@ export default {
       corde2: Array,
       corde3: Array,
       corde4: Array,
+      loaded: false,
+      model: null
     }
   },
   methods: {
@@ -172,6 +208,10 @@ export default {
     this.corde2 = frettes.data().cor2
     this.corde3 = frettes.data().cor3
     this.corde4 = frettes.data().cor4
+    setTimeout(() => {
+      this.loaded = true
+    },
+    (5000))
   }
 }
 </script>
