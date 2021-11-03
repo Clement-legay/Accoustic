@@ -10,13 +10,13 @@
       <nav id="mainav">
         <ul class="clear">
           <li class="active"><router-link to="/">Home</router-link></li>
-          <li><router-link to="/" class="drop">Accords</router-link>
+          <li><router-link to="/accords" class="drop">Accords</router-link>
             <ul>
-              <li><router-link to="/">Simple</router-link></li>
-              <li><router-link to="/">Mineur</router-link></li>
-              <li><router-link to="/">Septième</router-link></li>
-              <li><router-link to="/">Majeur</router-link></li>
-              <li><router-link to="/">Autres</router-link></li>
+              <li><router-link v-bind:to="{name: 'accords', params: {gamme: '0'}}">Simple</router-link></li>
+              <li><router-link v-bind:to="{name: 'accords', params: {gamme: '1'}}">Mineures</router-link></li>
+              <li><router-link v-bind:to="{name: 'accords', params: {gamme: '2'}}">Septièmes</router-link></li>
+              <li><router-link v-bind:to="{name: 'accords', params: {gamme: '3'}}">Septièmes Majeures</router-link></li>
+              <li><router-link v-bind:to="{name: 'accords', params: {gamme: '4'}}">Septièmes Mineures</router-link></li>
             </ul>
           </li>
           <li><router-link to="/quiz">Sono</router-link></li>

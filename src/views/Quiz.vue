@@ -14,8 +14,17 @@
             </v-col>
             <v-col cols="12" sm="6">
               <v-container cols="12">
+                <v-select
+                    v-model="choice"
+                    item-text="name"
+                    :items="accords"
+                    menu-props="auto"
+                    label="Select Gamme"
+                    return-object
+                    @change="next(); score = 0"
+                ></v-select>
                 <v-skeleton-loader class="mx-auto" type="card" v-show="!loaded"></v-skeleton-loader>
-                <v-card elevation="6" outlined shaped v-show="loaded" color="grey lighten-3">
+                <v-card elevation="2" outlined shaped v-show="loaded" color="grey lighten-3">
                   <v-row>
                     <v-spacer></v-spacer>
                     <v-col sm="4">
@@ -29,7 +38,7 @@
                   <br>
                   <v-row>
                     <v-col sm="4" v-for="(answer, index) in answers" :key="index" class="pa-6 center">
-                      <v-btn color="green lighten-2" elevation="2" fab rounded v-on:click="checkIf(index)">{{answer.name}}</v-btn>
+                      <v-btn color="green lighten-2" elevation="2" class="font-weight-black" v-on:click="checkIf(index)">{{answer.name}}</v-btn>
                     </v-col>
                   </v-row>
                 </v-card>
@@ -57,7 +66,8 @@ export default {
   },
   data() {
     return {
-      test: Accords.data().lezAccords,
+      choice: Accords.data().Accords[0],
+      accords: Accords.data().Accords,
       theOne: Audio,
       answers: Array,
       Finally: false,
@@ -67,8 +77,8 @@ export default {
   },
   methods: {
     next() {
-      this.theOne = this.rand(this.test)
-      this.answers = [this.rand(this.test), this.theOne, this.rand(this.test)]
+      this.theOne = this.rand(this.choice.data)
+      this.answers = [this.rand(this.choice.data), this.theOne, this.rand(this.choice.data)]
       this.answers = this.shuffle(this.answers)
       this.Finally = false
     },
@@ -100,12 +110,12 @@ export default {
     }
   },
   mounted() {
-    this.theOne = this.rand(this.test)
-    this.answers = [this.rand(this.test), this.theOne, this.rand(this.test)]
+    this.theOne = this.rand(this.choice.data)
+    this.answers = [this.rand(this.choice.data), this.theOne, this.rand(this.choice.data)]
     this.answers = this.shuffle(this.answers)
     setTimeout(() => {
       this.loaded = true
-    }, (5000))
+    }, (2500))
   }
 }
 </script>

@@ -6,6 +6,7 @@ import fingerPick from "../views/fingerPick";
 import NotFound from "../views/NotFound";
 import Tab from "../views/Tab";
 import tabs_maker from "../components/tabs_maker";
+import Diagrams from "../views/Diagrams"
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,12 @@ const routes = [
     path: "/tabmaker",
     name: "TM",
     component: tabs_maker
+  },
+  {
+    path: "/accords",
+    name: "accords",
+    props: true,
+    component: Diagrams
   },
 
     // error 404

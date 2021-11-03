@@ -23,11 +23,9 @@
                 @change="stopAll(); interpreter()"
             ></v-select>
           <v-row>
-            <v-col cols="12" sm="6" align="right">
-              <v-btn v-on:click="playTab()" outlined :loading="playing" :disabled="!choice" color="dark lighten-2">Play</v-btn>
-            </v-col>
-            <v-col cols="12" sm="6" align="left">
-              <v-btn v-on:click="stopAll()" outlined :disabled="!playing" color="dark lighten-2">Stop</v-btn>
+            <v-col cols="12" sm="6" align="center">
+              <v-btn class="ma-2" v-on:click="playTab(true )" outlined :loading="playing" :disabled="!choice" color="dark lighten-2">Play</v-btn>
+              <v-btn class="ma-2" v-on:click="stopAll()" outlined :disabled="!playing" color="dark lighten-2">Stop</v-btn>
             </v-col>
           </v-row>
         </v-col>
@@ -35,44 +33,29 @@
     </v-container>
 
     <v-container v-if="choice !== null" cols="12">
-      <v-card elevation="3" outlined shaped>
-        <v-row class="pa-6">
-          <div v-for="note in choice.notes" :key="note.id" class="center">
-            <p v-if="note[1] === 1">
-              --------<br>
-              {{note[0]}}<br>
-              |<br>
-              |<br>
-              |<br>
-              --------
-            </p>
-            <p v-if="note[1] === 2">
-              --------<br>
-              |<br>
-              {{note[0]}}<br>
-              |<br>
-              |<br>
-              --------
-            </p>
-            <p v-if="note[1] === 3">
-              --------<br>
-              |<br>
-              |<br>
-              {{note[0]}}<br>
-              |<br>
-              --------
-            </p>
-            <p v-if="note[1] === 4">
-              --------<br>
-              |<br>
-              |<br>
-              |<br>
-              {{note[0]}}<br>
-              --------
-            </p>
-          </div>
+      <v-sheet class="mx-auto pa-6" elevation="8" outlined max-width="900">
+        <v-row>
+          <v-col sm="4">
+            <v-spacer></v-spacer>
+          </v-col>
+          <v-col sm="4">
+            <h1 class="center pa-2 text-button">Tablature</h1>
+          </v-col>
+          <v-col sm="4">
+            <v-select class="pa-4" v-model="rythm" item-text="name" :items="rythmplus" dense label="Select Rythm" return-object></v-select>
+          </v-col>
         </v-row>
-      </v-card>
+        <v-slide-group v-model="firstNote" mandatory center-active show-arrows>
+          <v-slide-item v-for="note in choice.notes" :key="note.id" v-slot="{ active, toggle }">
+            <v-card outlined style="background-image: url('./Img/tab.jpg'); background-position: center; background-size: cover" height="150" width="75" @click="toggle">
+                <v-btn elevation="2" fab tile small color="black" style="color: white; left: 25%; height: 25%; font-size: 15px" class="font-weight-bold font-x3" v-if="note[1] === 1" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
+                <v-btn elevation="2" fab tile small color="black" style="color: white; left: 25%; height: 25%; font-size: 15px; top: 25%" class="font-weight-bold" v-if="note[1] === 2" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
+                <v-btn elevation="2" fab tile small color="black" style="color: white; left: 25%; height: 25%; font-size: 15px; top: 50%" class="font-weight-bold" v-if="note[1] === 3" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
+                <v-btn elevation="2" fab tile small color="black" style="color: white; left: 25%; height: 25%; font-size: 15px; top: 75%" class="font-weight-bold" v-if="note[1] === 4" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
+            </v-card>
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>
     </v-container>
     <FooterComponent></FooterComponent>
   </div>
@@ -93,7 +76,9 @@ export default {
   data() {
     return {
       choice: null,
-
+      rythm: {name: "500ms", data: 500},
+      rythmplus: [{name: "250ms", data: 250},{name: "500ms", data: 500},{name: "750ms", data: 750},{name: "1000ms", data: 1000}],
+      firstNote: 0,
       corde1: Array,
       corde2: Array,
       corde3: Array,
@@ -109,32 +94,38 @@ export default {
       for (let i =0; i < this.choice.notes.length; i++) {
           let obj = this.choice.notes[i]
           let decrypt = this.makeASound(obj[0], obj[1])
-          this.audio.push(new Audio(decrypt))
+          this.audio.push(new Audio(decrypt.link))
       }
     },
     makeASound(note, corde) {
       if (corde === 1) {
-        return this.corde1[note].link
+        return this.corde1[note]
       } else if (corde === 2) {
-        return this.corde2[note].link
+        return this.corde2[note]
       } else if (corde === 3) {
-        return this.corde3[note].link
+        return this.corde3[note]
       } else {
-        return this.corde4[note].link
+        return this.corde4[note]
       }
     },
-    playTab() {
-      this.playing = true
+    playTab(bool) {
+      this.stopAll()
+      this.playing = bool
       let max = this.audio.length
       setTimeout(() => {
-        this.playing = false}, ((max + 1) * this.choice.rythm))
+        this.firstNote = 0; this.playing = false}, ((max + 1) * this.rythm.data))
       for (let i = 0; i < this.audio.length; i++) {
         setTimeout(() => {
-          if (this.playing === true) {this.audio[i].play()}}, (i * this.choice.rythm))
+          this.firstNote = i; if (this.playing === true) {this.audio[i].play()}}, (i * this.rythm.data))
       }
+    },
+    playNote(note, corde) {
+      let result = this.makeASound(note, corde)
+      result.sound.play()
     },
     stopAll() {
       this.playing = false
+      this.reading = false
       let id = window.setTimeout(() => {}, 0)
       while (id--) {
         window.clearTimeout(id);

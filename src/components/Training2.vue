@@ -13,8 +13,17 @@
         </v-col>
         <v-col cols="12" sm="6">
           <v-container cols="12">
+            <v-select
+                v-model="choice"
+                item-text="name"
+                :items="accords"
+                menu-props="auto"
+                label="Select Gamme"
+                return-object
+                @change="next(); score = 0"
+            ></v-select>
             <v-skeleton-loader class="mx-auto" type="card" v-show="!loaded"></v-skeleton-loader>
-            <v-card elevation="6" v-show="loaded" outlined shaped color="grey lighten-3">
+            <v-card elevation="2" v-show="loaded" outlined color="grey lighten-3">
               <v-row>
                 <v-spacer></v-spacer>
                 <v-col sm="4">
@@ -28,51 +37,51 @@
               <div id="handle" class="center">
                 <v-slide-group v-for="(corde, index) in 4" :key="index" mandatory style="height: 25%">
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 14%" @click="toggle" v-on:click="play(index, 0)">
+                    <v-card color="transparent" style="width: 14%" @click="toggle" v-on:click="play(index, 0)">
                       <v-scale-transition>
-                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 17%" @click="toggle" v-on:click="play(index, 1)">
+                    <v-card color="transparent" style="width: 17%" @click="toggle" v-on:click="play(index, 1)">
                       <v-scale-transition>
-                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 15%" @click="toggle" v-on:click="play(index, 2)">
+                    <v-card color="transparent" style="width: 15%" @click="toggle" v-on:click="play(index, 2)">
                       <v-scale-transition>
-                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 15%" @click="toggle" v-on:click="play(index, 3)">
+                    <v-card color="transparent" style="width: 15%" @click="toggle" v-on:click="play(index, 3)">
                       <v-scale-transition>
-                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 13.5%" @click="toggle" v-on:click="play(index, 4)">
+                    <v-card color="transparent" style="width: 13.5%" @click="toggle" v-on:click="play(index, 4)">
                       <v-scale-transition>
-                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 13%" @click="toggle" v-on:click="play(index, 5)">
+                    <v-card color="transparent" style="width: 13%" @click="toggle" v-on:click="play(index, 5)">
                       <v-scale-transition>
-                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card :color="active ? 'secondary' : 'transparent'" style="width: 12.5%" @click="toggle" v-on:click="play(index, 6)">
+                    <v-card color="transparent" style="width: 12.5%" @click="toggle" v-on:click="play(index, 6)">
                       <v-scale-transition>
-                        <v-icon v-if="active" v-text="'mdi-close-circle-outline'"></v-icon>
+                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
@@ -104,7 +113,8 @@ export default {
   },
   data() {
     return {
-      test: Array,
+      accords: Accords.data().Accords,
+      choice: Accords.data().Accords[0],
       sound: Object,
       theOne: Audio,
       score: 0,
@@ -141,7 +151,7 @@ export default {
       }
     },
     next() {
-      this.theOne = this.rand(this.test)
+      this.theOne = this.rand(this.choice.data)
     },
     rand(accord) {
       return accord[Math.floor(Math.random() * accord.length)]
@@ -202,8 +212,7 @@ export default {
     }
   },
   mounted() {
-    this.test = Accords.data().lezAccords
-    this.theOne = this.rand(this.test)
+    this.theOne = this.rand(this.choice.data)
     this.corde1 = frettes.data().cor1
     this.corde2 = frettes.data().cor2
     this.corde3 = frettes.data().cor3
@@ -211,7 +220,7 @@ export default {
     setTimeout(() => {
       this.loaded = true
     },
-    (5000))
+    (2500))
   }
 }
 </script>
@@ -225,6 +234,9 @@ export default {
   background-position: center;
   background-size: cover;
   margin: 0 auto;
+}
+.nothing {
+  background-color: transparent;
 }
 .cor
 {
