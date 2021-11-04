@@ -19,18 +19,15 @@
         </div>
       </div>
     </main>
-    <FooterComponent></FooterComponent>
   </div>
 </template>
 
 <script>
 import HeaderComponentShort from "../components/HeaderComponentShort";
-import FooterComponent from "../components/FooterComponent";
 
 export default {
   name : '404',
   components: {
-    FooterComponent,
     HeaderComponentShort,
   }
 }

@@ -22,8 +22,7 @@
                 return-object
                 @change="next(); score = 0"
             ></v-select>
-            <v-skeleton-loader class="mx-auto" type="card" v-show="!loaded"></v-skeleton-loader>
-            <v-card elevation="2" v-show="loaded" outlined color="grey lighten-3">
+            <v-card elevation="2" outlined color="grey lighten-3">
               <v-row>
                 <v-spacer></v-spacer>
                 <v-col sm="4">
@@ -35,6 +34,9 @@
               </v-row>
               <br>
               <div id="handle" class="center">
+
+<!--                c'est ici-->
+
                 <v-slide-group v-for="(corde, index) in 4" :key="index" mandatory style="height: 25%">
                   <v-slide-item v-slot="{ active, toggle }">
                     <v-card color="transparent" style="width: 14%" @click="toggle" v-on:click="play(index, 0)">
@@ -87,7 +89,7 @@
                   </v-slide-item>
                 </v-slide-group>
 
-              <!--              c'est fini-->
+                <!--              c'est fini-->
               </div>
               <br>
               <div class="right">
@@ -123,7 +125,6 @@ export default {
       corde2: Array,
       corde3: Array,
       corde4: Array,
-      loaded: false,
       model: null
     }
   },
@@ -174,32 +175,6 @@ export default {
         this.score--
       }
     },
-    // actualiser() {
-    //   let cor1 = document.getElementsByClassName('cor1')
-    //   let cor2 = document.getElementsByClassName('cor2')
-    //   let cor3 = document.getElementsByClassName('cor3')
-    //   let cor4 = document.getElementsByClassName('cor4')
-    //   for (let indexcor1 = 0; indexcor1< cor1.length ; indexcor1++) {
-    //       if (indexcor1 === this.answer[0]) {
-    //         cor1[indexcor1].style.backgroundImage = "../../public/Img/signe.png"
-    //       }
-    //   }
-    //   for (let indexcor2 = 0; indexcor2< cor2.length ; indexcor2++) {
-    //     if (indexcor2 === this.answer[1]) {
-    //       cor2[indexcor2].style.backgroundImage = "../../public/Img/signe.png"
-    //     }
-    //   }
-    //   for (let indexcor3 = 0; indexcor3< cor3.length ; indexcor3++) {
-    //     if (indexcor3 === this.answer[2]) {
-    //       cor3[indexcor3].style.backgroundImage = "../../public/Img/signe.png"
-    //     }
-    //   }
-    //   for (let indexcor4 = 0; indexcor4< cor4.length ; indexcor4++) {
-    //     if (indexcor4 === this.answer[3]) {
-    //       cor4[indexcor4].style.backgroundImage = "url(../../public/Img/signe.png"
-    //     }
-    //   }
-    // },
     shuffle(a) {
       let j, x, i;
       for (i = a.length - 1; i > 0; i--) {
@@ -217,10 +192,6 @@ export default {
     this.corde2 = frettes.data().cor2
     this.corde3 = frettes.data().cor3
     this.corde4 = frettes.data().cor4
-    setTimeout(() => {
-      this.loaded = true
-    },
-    (2500))
   }
 }
 </script>

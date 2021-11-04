@@ -3,28 +3,8 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="6">
-          <v-sheet class="pa-6">
-            <h6>C'EST L'HEURE DE JOUER</h6>
-            <p class="font-x1 text-justify">
-              Appuyez sur le bouton play pour écouter l'accord. En suite, choisissez quel note correspond au son, selon vous.<br/>
-              N'aillez pas peur plus vous pratiquer et plus vous accoutumer votre oreil musicale !
-            </p>
-          </v-sheet>
-        </v-col>
-        <v-col cols="12" sm="6">
           <v-container cols="12">
-            <v-skeleton-loader class="mx-auto" type="card" v-show="!loaded"></v-skeleton-loader>
-            <v-card elevation="6" v-show="loaded" outlined shaped color="grey lighten-3">
-              <v-row>
-                <v-spacer></v-spacer>
-                <v-col sm="4">
-                  <Accord class="pa-2 center" :notes="theOne"></Accord>
-                </v-col>
-                <v-col sm="4">
-                  <h6 class="text-right pa-md-2">Score: {{ score }}</h6>
-                </v-col>
-              </v-row>
-              <br>
+            <v-card elevation="6" outlined shaped color="grey lighten-3">
               <div id="handle" class="center">
                 <v-slide-group v-for="(corde, index) in 4" :key="index" mandatory style="height: 25%">
                   <v-slide-item v-slot="{ active, toggle }">
@@ -100,26 +80,16 @@
 
 <script>
 import frettes from "../assets/js/frettes";
-import Accords from "../assets/js/Accords";
-import Accord from "./Accord";
 
 export default {
   name: "Training",
-  components: {
-    Accord
-  },
   data() {
     return {
-      test: Array,
       sound: Object,
-      theOne: Audio,
-      score: 0,
-      answer: [0, 0, 0, 0],
       corde1: Array,
       corde2: Array,
       corde3: Array,
       corde4: Array,
-      loaded: false,
       model: null,
 
       tab: []
@@ -130,93 +100,24 @@ export default {
       if (Cor === 0) {
         this.sound = this.corde1[Not].sound
         this.sound.play()
-      }
-      else if (Cor === 1) {
+      } else if (Cor === 1) {
         this.sound = this.corde2[Not].sound
         this.sound.play()
-      }
-      else if (Cor === 2) {
+      } else if (Cor === 2) {
         this.sound = this.corde3[Not].sound
         this.sound.play()
-      }
-      else {
+      } else {
         this.sound = this.corde4[Not].sound
         this.sound.play()
       }
-      this.tab.push([Not, Cor+1])
+      this.tab.push([Not, Cor + 1])
     },
-    next() {
-      this.theOne = this.rand(this.test)
-    },
-    rand(accord) {
-      return accord[Math.floor(Math.random() * accord.length)]
-    },
-    checkIf() {
-      let check = false
-      if (this.answer[0] === this.theOne.data[0]) {
-        if (this.answer[1] === this.theOne.data[1]) {
-          if (this.answer[2] === this.theOne.data[2]) {
-            if (this.answer[3] === this.theOne.data[3]) {
-              check = true
-              this.score++
-              this.next()
-              this.answer = [0,0,0,0]
-            }
-          }
-        }
-      }
-      if (check !== true) {
-        this.score--
-      }
-    },
-    // actualiser() {
-    //   let cor1 = document.getElementsByClassName('cor1')
-    //   let cor2 = document.getElementsByClassName('cor2')
-    //   let cor3 = document.getElementsByClassName('cor3')
-    //   let cor4 = document.getElementsByClassName('cor4')
-    //   for (let indexcor1 = 0; indexcor1< cor1.length ; indexcor1++) {
-    //       if (indexcor1 === this.answer[0]) {
-    //         cor1[indexcor1].style.backgroundImage = "../../public/Img/signe.png"
-    //       }
-    //   }
-    //   for (let indexcor2 = 0; indexcor2< cor2.length ; indexcor2++) {
-    //     if (indexcor2 === this.answer[1]) {
-    //       cor2[indexcor2].style.backgroundImage = "../../public/Img/signe.png"
-    //     }
-    //   }
-    //   for (let indexcor3 = 0; indexcor3< cor3.length ; indexcor3++) {
-    //     if (indexcor3 === this.answer[2]) {
-    //       cor3[indexcor3].style.backgroundImage = "../../public/Img/signe.png"
-    //     }
-    //   }
-    //   for (let indexcor4 = 0; indexcor4< cor4.length ; indexcor4++) {
-    //     if (indexcor4 === this.answer[3]) {
-    //       cor4[indexcor4].style.backgroundImage = "url(../../public/Img/signe.png"
-    //     }
-    //   }
-    // },
-    shuffle(a) {
-      let j, x, i;
-      for (i = a.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = a[i];
-        a[i] = a[j];
-        a[j] = x;
-      }
-      return a;
-    }
   },
   mounted() {
-    this.test = Accords.data().lezAccords
-    this.theOne = this.rand(this.test)
     this.corde1 = frettes.data().cor1
     this.corde2 = frettes.data().cor2
     this.corde3 = frettes.data().cor3
     this.corde4 = frettes.data().cor4
-    setTimeout(() => {
-      this.loaded = true
-    },
-    (5000))
   }
 }
 </script>

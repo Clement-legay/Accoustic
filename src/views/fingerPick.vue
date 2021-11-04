@@ -1,22 +1,32 @@
 <template>
   <div id="Quiz">
     <HeaderComponentShort :theme="'Finger\'s Training'"></HeaderComponentShort>
-    <Training/>
-    <FooterComponent></FooterComponent>
+    <LoadingScreenComponent v-show="loading"></LoadingScreenComponent>
+    <Training :hidden="loading"></Training>
   </div>
 </template>
 
 <script>
 import HeaderComponentShort from "../components/HeaderComponentShort";
-import FooterComponent from "../components/FooterComponent";
 import Training from "../components/Training2";
+import LoadingScreenComponent from "../components/LoadingScreenComponent";
 
 export default {
   name: "fingerPick",
   components: {
     HeaderComponentShort,
-    FooterComponent,
-    Training
+    Training,
+    LoadingScreenComponent
+  },
+  data() {
+    return {
+      loading : true
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, (1000))
   }
 }
 
