@@ -14,10 +14,9 @@
         <h6 class="heading">Nous contacter</h6>
         <form action="#" method="post">
           <fieldset>
-            <legend>Newsletter:</legend>
-            <input class="btmspace-15" type="text" value="" placeholder="Name">
+            <input class="btmspace-15" type="text" value="" placeholder="Nom">
             <input class="btmspace-15" type="text" value="" placeholder="Email">
-            <button type="submit" value="submit">Submit</button>
+            <button type="submit" value="submit">Envoyer</button>
           </fieldset>
         </form>
       </div>
@@ -26,14 +25,14 @@
         <ul class="nospace linklist">
           <li>
             <article>
-              <p class="nospace btmspace-10"><router-link to="/">Id euismod est risus ac neque aliquam erat volutpat pellentesque adipiscing.</router-link></p>
-              <time class="block font-xs" datetime="2045-04-06">Friday, 6<sup>th</sup> April 2045</time>
+              <p class="nospace btmspace-10"><router-link to="/" style="color: teal">Le site prend forme et j'espère pouvoir le publier prochainement.</router-link></p>
+              <time class="block font-xs" datetime="2021-11-08">Lundi, 8 Novembre 2021</time>
             </article>
           </li>
           <li>
             <article>
-              <p class="nospace btmspace-10"><router-link to="/">Nunc hendrerit adipiscing nulla donec vestibulum odio quisque gravida morbi.</router-link></p>
-              <time class="block font-xs" datetime="2045-04-05">Thursday, 5<sup>th</sup> April 2045</time>
+              <p class="nospace btmspace-10"><router-link to="/" style="color: teal">Tous les systèmes semblent fonctionnels. Enfin !</router-link></p>
+              <time class="block font-xs" datetime="2021-10-27">Mercredi, 27 Octobre 2021</time>
             </article>
           </li>
         </ul>
@@ -41,19 +40,19 @@
       <div class="one_quarter">
         <h6 class="heading">Liens</h6>
         <ul class="nospace linklist">
-          <li><router-link to="/">Hendrerit id lacus praesent</router-link></li>
-          <li><router-link to="/">Ullamcorper risus gravida</router-link></li>
-          <li><router-link to="/">Suscipit tempor turpis</router-link></li>
-          <li><router-link to="/">Pede dictum ipsum vel auctor</router-link></li>
-          <li><router-link to="/">Leo est tincidunt est sed</router-link></li>
+          <li><router-link style="color: teal" to="/quiz">Affûte ton oreille</router-link></li>
+          <li><router-link style="color: teal" to="/accords">Liste des accords</router-link></li>
+          <li><router-link style="color: teal" to="/">Tips</router-link></li>
+          <li><router-link style="color: teal" to="/training">Entrâine toi à jouer</router-link></li>
+          <li><router-link style="color: teal" to="/tabs">Tablatures</router-link></li>
         </ul>
       </div>
       <div class="one_quarter">
         <h6 class="heading">Tips</h6>
         <ul class="nospace clear latestimg">
-          <li><router-link to="/" class="imgover"><img src="Img/01.png" alt=""></router-link></li>
-          <li><router-link to="/" class="imgover"><img src="Img/01.png" alt=""></router-link></li>
-          <li><router-link to="/" class="imgover"><img src="Img/01.png" alt=""></router-link></li>
+          <li><router-link to="/" class="imgover"><img src="Img/uku1.jpg" alt=""></router-link></li>
+          <li><router-link to="/" class="imgover"><img src="Img/uku2.jpg" alt=""></router-link></li>
+          <li><router-link to="/" class="imgover"><img src="Img/uku3.jpg" alt=""></router-link></li>
           <li><router-link to="/" class="imgover"><img src="Img/01.png" alt=""></router-link></li>
           <li><router-link to="/" class="imgover"><img src="Img/01.png" alt=""></router-link></li>
           <li><router-link to="/" class="imgover"><img src="Img/01.png" alt=""></router-link></li>

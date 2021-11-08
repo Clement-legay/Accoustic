@@ -47,10 +47,7 @@
         <v-slide-group v-model="firstNote" mandatory center-active show-arrows active-class="test">
           <v-slide-item v-for="note in choice.notes" :key="note.id" v-slot="{ active, toggle }">
             <v-card outlined style="background-image: url('./Img/tab.jpg'); background-position: center; background-size: cover" height="150" width="75" @click="toggle">
-              <v-btn elevation="2" fab tile small color="black" style="color: white ;left: 25%; height: 25%; font-size: 15px" class="font-weight-bold font-x3" v-if="note[1] === 1" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
-              <v-btn elevation="2" fab tile small color="black" style="color: white; left: 25%; height: 25%; font-size: 15px; top: 25%" class="font-weight-bold" v-if="note[1] === 2" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
-              <v-btn elevation="2" fab tile small color="black" style="color: white; left: 25%; height: 25%; font-size: 15px; top: 50%" class="font-weight-bold" v-if="note[1] === 3" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
-              <v-btn elevation="2" fab tile small color="black" style="color: white; left: 25%; height: 25%; font-size: 15px; top: 75%" class="font-weight-bold" v-if="note[1] === 4" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
+              <v-btn elevation="2" fab tile small color="black" :style="'top: ' + 25 * (note[1] - 1) + '%'" style="color: white; left: 25%; height: 25%; font-size: 15px" class="font-weight-bold" @click="playNote(note[0], note[1])">{{ note[0] }}</v-btn>
             </v-card>
           </v-slide-item>
         </v-slide-group>
@@ -85,8 +82,24 @@ export default {
       this.audio = []
       for (let i =0; i < this.choice.notes.length; i++) {
         let obj = this.choice.notes[i]
-        let decrypt = this.makeASound(obj[0], obj[1])
-        this.audio.push(new Audio(decrypt.link))
+        if (obj[0] === true) {
+          let fewAudio = []
+          for (let j = 1; j < obj.length; j++) {
+            let object = obj[j]
+            let decrypt = this.makeASound(object[0], object[1])
+            fewAudio.push(new Audio(decrypt.link))
+          }
+          this.audio.push(fewAudio)
+        }
+        else {
+          let decrypt = this.makeASound(obj[0], obj[1])
+          if (decrypt !== null) {
+            this.audio.push(new Audio(decrypt.link))
+          }
+          else {
+            this.audio.push(new Audio("./Sounds/Frettes/nothing.mp3"))
+          }
+        }
       }
     },
     makeASound(note, corde) {
@@ -96,8 +109,11 @@ export default {
         return this.corde2[note]
       } else if (corde === 3) {
         return this.corde3[note]
-      } else {
+      } else if (corde === 4) {
         return this.corde4[note]
+      }
+      else {
+        return null
       }
     },
     playTab(bool) {
@@ -107,8 +123,17 @@ export default {
       setTimeout(() => {
         this.firstNote = 0; this.playing = false}, ((max + 1) * this.rythm.data))
       for (let i = 0; i < this.audio.length; i++) {
-        setTimeout(() => {
-          this.firstNote = i; if (this.playing === true) {this.audio[i].play()}}, (i * this.rythm.data))
+        let test = this.audio[i]
+        if (test.length > 1) {
+          for (let j = 0; j < test.length; j++) {
+            setTimeout(() => {
+              this.firstNote = i; if (this.playing === true) { test[j].play()}}, (i * this.rythm.data))
+          }
+        }
+        else {
+          setTimeout(() => {
+            this.firstNote = i; if (this.playing === true) { if (this.audio[i] !== null) { this.audio[i].play()}}}, (i * this.rythm.data))
+        }
       }
     },
     playNote(note, corde) {

@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }" close-delay="200">
-    <v-card class="pa-4" :elevation="hover ? 16 : 2" outlined height="450" max-width="300" color="green lighten-5">
+    <v-card class="pa-sm-0 pa-md-2 pa-lg-4" :elevation="hover ? 16 : 2" outlined height="450" max-width="300" color="green lighten-5">
       <h1 class="text-h4 pa-2 ma-0">{{ accord.name }}</h1>
       <v-main style="background-image: url('./Img/virginDiagram.png'); background-size: cover; background-position: center;height: 80%; width: 60%">
         <v-row cols="12" style="height: 100%">

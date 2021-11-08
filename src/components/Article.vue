@@ -1,5 +1,5 @@
 <template>
-<body id="top">
+<body id="top" :style="$vuetify.breakpoint.lgAndUp? 'null' : 'padding-top: 200px; position: relative; z-index: 0'">
   <div class="wrapper row3">
     <main class="hoc container clear">
       <section id="introblocks">

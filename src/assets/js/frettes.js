@@ -265,8 +265,7 @@ export default {
                     sound: new Audio("./Sounds/Frettes/C4/15.mp3"),
                     link: "./Sounds/Frettes/C4/15.mp3",
                 },
-            ]
-
+            ],
         }
     }
 }

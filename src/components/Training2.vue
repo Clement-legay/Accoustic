@@ -4,11 +4,13 @@
       <v-row>
         <v-col cols="12" sm="6">
           <v-sheet class="pa-6">
-            <h6>C'EST L'HEURE DE JOUER</h6>
-            <p class="font-x1 text-justify">
-              Appuyez sur le bouton play pour écouter l'accord. En suite, choisissez quel note correspond au son, selon vous.<br/>
-              N'aillez pas peur plus vous pratiquer et plus vous accoutumer votre oreil musicale !
-            </p>
+            <div>
+              <h6>C'EST L'HEURE DE JOUER</h6>
+              <p class="font-x1 text-justify">
+                Appuyez sur le bouton play pour écouter l'accord. En suite, choisissez quel note correspond au son, selon vous.<br/>
+                N'aillez pas peur plus vous pratiquer et plus vous accoutumer votre oreil musicale !
+              </p>
+            </div>
           </v-sheet>
         </v-col>
         <v-col cols="12" sm="6">
@@ -24,77 +26,160 @@
             ></v-select>
             <v-card elevation="2" outlined color="grey lighten-3">
               <v-row>
-                <v-spacer></v-spacer>
                 <v-col sm="4">
-                  <Accord class="pa-2 center" :notes="theOne"></Accord>
+                  <v-switch
+                      class="pa-2 center"
+                      false-value=""
+                      v-model="leftRight"
+                  ><v-icon class="fas fa-hand-point-right"></v-icon></v-switch>
+                </v-col>
+                <v-col sm="4" align="center">
+                  <v-btn hover="false" icon x-large class="ma-4" color="green darken-2" elevation="2">{{theOne.name}}</v-btn>
                 </v-col>
                 <v-col sm="4">
                   <h6 class="text-right pa-md-2">Score: {{ score }}</h6>
                 </v-col>
               </v-row>
               <br>
-              <div id="handle" class="center">
+              <div class="center handle righthand" v-if="!leftRight">
 
 <!--                c'est ici-->
-
                 <v-slide-group v-for="(corde, index) in 4" :key="index" mandatory style="height: 25%">
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card color="transparent" style="width: 14%" @click="toggle" v-on:click="play(index, 0)">
+                    <v-card color="transparent" style="width: 14%" @click="toggle" v-on:click="play(index, 0, false)">
                       <v-scale-transition>
-                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
+                        <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card color="transparent" style="width: 17%" @click="toggle" v-on:click="play(index, 1)">
+                    <v-card color="transparent" style="width: 17%" @click="toggle" v-on:click="play(index, 1, false)">
                       <v-scale-transition>
-                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
+                        <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card color="transparent" style="width: 15%" @click="toggle" v-on:click="play(index, 2)">
+                    <v-card color="transparent" style="width: 15%" @click="toggle" v-on:click="play(index, 2, false)">
                       <v-scale-transition>
-                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
+                        <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card color="transparent" style="width: 15%" @click="toggle" v-on:click="play(index, 3)">
+                    <v-card color="transparent" style="width: 15%" @click="toggle" v-on:click="play(index, 3, false)">
                       <v-scale-transition>
-                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
+                        <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card color="transparent" style="width: 13.5%" @click="toggle" v-on:click="play(index, 4)">
+                    <v-card color="transparent" style="width: 13.5%" @click="toggle" v-on:click="play(index, 4, false)">
                       <v-scale-transition>
-                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
+                        <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card color="transparent" style="width: 13%" @click="toggle" v-on:click="play(index, 5)">
+                    <v-card color="transparent" style="width: 13%" @click="toggle" v-on:click="play(index, 5, false)">
                       <v-scale-transition>
-                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
+                        <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                   <v-slide-item v-slot="{ active, toggle }">
-                    <v-card color="transparent" style="width: 12.5%" @click="toggle" v-on:click="play(index, 6)">
+                    <v-card color="transparent" style="width: 12.5%" @click="toggle" v-on:click="play(index, 6, false)">
                       <v-scale-transition>
-                        <v-icon v-if="active" class="fas fa-circle pa-2" color="grey darken-2"></v-icon>
+                        <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
                       </v-scale-transition>
                     </v-card>
                   </v-slide-item>
                 </v-slide-group>
+                </div>
+
+<!--                gaucher-->
+
+                <div class="center handle lefthand" v-else>
+                  <v-slide-group v-for="(corde, index) in 4" :key="index" mandatory style="height: 25%">
+                    <v-slide-item v-slot="{ active, toggle }">
+                      <v-card color="transparent" style="width: 12.5%" @click="toggle" v-on:click="play(index, 6, true)">
+                        <v-scale-transition>
+                          <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
+                        </v-scale-transition>
+                      </v-card>
+                    </v-slide-item>
+                    <v-slide-item v-slot="{ active, toggle }">
+                      <v-card color="transparent" style="width: 13%" @click="toggle" v-on:click="play(index, 5, true)">
+                        <v-scale-transition>
+                          <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
+                        </v-scale-transition>
+                      </v-card>
+                    </v-slide-item>
+                    <v-slide-item v-slot="{ active, toggle }">
+                      <v-card color="transparent" style="width: 13.5%" @click="toggle" v-on:click="play(index, 4, true)">
+                        <v-scale-transition>
+                          <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
+                        </v-scale-transition>
+                      </v-card>
+                    </v-slide-item>
+                    <v-slide-item v-slot="{ active, toggle }">
+                      <v-card color="transparent" style="width: 15%" @click="toggle" v-on:click="play(index, 3, true)">
+                        <v-scale-transition>
+                          <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
+                        </v-scale-transition>
+                      </v-card>
+                    </v-slide-item>
+                    <v-slide-item v-slot="{ active, toggle }">
+                      <v-card color="transparent" style="width: 15%" @click="toggle" v-on:click="play(index, 2, true)">
+                        <v-scale-transition>
+                          <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
+                        </v-scale-transition>
+                      </v-card>
+                    </v-slide-item>
+                    <v-slide-item v-slot="{ active, toggle }">
+                      <v-card color="transparent" style="width: 17%" @click="toggle" v-on:click="play(index, 1, true)">
+                        <v-scale-transition>
+                          <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
+                        </v-scale-transition>
+                      </v-card>
+                    </v-slide-item>
+                    <v-slide-item v-slot="{ active, toggle }">
+                      <v-card color="transparent" style="width: 14%" @click="toggle" v-on:click="play(index, 0, true)">
+                        <v-scale-transition>
+                          <v-icon v-if="active" class="fas fa-sort-down" color="white darken-2"></v-icon>
+                        </v-scale-transition>
+                      </v-card>
+                    </v-slide-item>
+                  </v-slide-group>
+                </div>
 
                 <!--              c'est fini-->
-              </div>
+
               <br>
-              <div class="right">
-                <v-btn class="ma-2" v-on:click="checkIf()" outlined color="dark lighten-2">Next</v-btn>
-              </div>
+              <v-row>
+                <v-col align="left">
+                  <v-btn v-show="wrong" class="ma-2" v-on:click="Diag = true" outlined color="dark lighten-2">
+                    Answer
+                  </v-btn>
+                  <v-dialog v-model="Diag" persistent max-width="320px">
+                    <v-card color="white darken-3">
+                      <v-col justify="center" align="center">
+                        <DiagramComponent :accord="theOne"></DiagramComponent>
+                      </v-col>
+                      <v-col align="right">
+                        <v-btn color="teal lighten-1" text @click="Diag = false">
+                          Close
+                        </v-btn>
+                      </v-col>
+                    </v-card>
+                  </v-dialog>
+                </v-col>
+                <v-col align="right">
+                  <v-btn class="ma-2" v-on:click="checkIf()" outlined :color="wrong? 'red': 'dark lighten-2'">
+                    Next
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-card>
           </v-container>
         </v-col>
@@ -106,12 +191,12 @@
 <script>
 import frettes from "../assets/js/frettes";
 import Accords from "../assets/js/Accords";
-import Accord from "./Accord";
+import DiagramComponent from "./DiagramComponent";
 
 export default {
   name: "Training",
   components: {
-    Accord
+    DiagramComponent
   },
   data() {
     return {
@@ -125,30 +210,57 @@ export default {
       corde2: Array,
       corde3: Array,
       corde4: Array,
-      model: null
+      model: null,
+      leftRight: false,
+      Diag: false,
+      wrong: false
     }
   },
   methods: {
-    play(Cor, Not) {
-      if (Cor === 0) {
-        this.sound = this.corde1[Not].sound
-        this.answer = [Not, this.answer[1], this.answer[2], this.answer[3]]
-        this.sound.play()
-      }
-      else if (Cor === 1) {
-        this.sound = this.corde2[Not].sound
-        this.answer = [this.answer[0], Not, this.answer[2], this.answer[3]]
-        this.sound.play()
-      }
-      else if (Cor === 2) {
-        this.sound = this.corde3[Not].sound
-        this.answer = [this.answer[0], this.answer[1], Not, this.answer[3]]
-        this.sound.play()
+    play(Cor, Not, reverse) {
+      if (!reverse) {
+        if (Cor === 0) {
+          this.sound = this.corde1[Not].sound
+          this.answer = [Not, this.answer[1], this.answer[2], this.answer[3]]
+          this.sound.play()
+        }
+        else if (Cor === 1) {
+          this.sound = this.corde2[Not].sound
+          this.answer = [this.answer[0], Not, this.answer[2], this.answer[3]]
+          this.sound.play()
+        }
+        else if (Cor === 2) {
+          this.sound = this.corde3[Not].sound
+          this.answer = [this.answer[0], this.answer[1], Not, this.answer[3]]
+          this.sound.play()
+        }
+        else {
+          this.sound = this.corde4[Not].sound
+          this.answer = [this.answer[0], this.answer[1], this.answer[2], Not]
+          this.sound.play()
+        }
       }
       else {
-        this.sound = this.corde4[Not].sound
-        this.answer = [this.answer[0], this.answer[1], this.answer[2], Not]
-        this.sound.play()
+        if (Cor === 0) {
+          this.sound = this.corde4[Not].sound
+          this.answer = [this.answer[0], this.answer[1], this.answer[2], Not]
+          this.sound.play()
+        }
+        else if (Cor === 1) {
+          this.sound = this.corde3[Not].sound
+          this.answer = [this.answer[0], this.answer[1], Not, this.answer[3]]
+          this.sound.play()
+        }
+        else if (Cor === 2) {
+          this.sound = this.corde2[Not].sound
+          this.answer = [this.answer[0], Not, this.answer[2], this.answer[3]]
+          this.sound.play()
+        }
+        else {
+          this.sound = this.corde1[Not].sound
+          this.answer = [Not, this.answer[1], this.answer[2], this.answer[3]]
+          this.sound.play()
+        }
       }
     },
     next() {
@@ -165,13 +277,14 @@ export default {
             if (this.answer[3] === this.theOne.data[3]) {
               check = true
               this.score++
+              this.wrong = false
               this.next()
-              this.answer = [0,0,0,0]
             }
           }
         }
       }
       if (check !== true) {
+        this.wrong = true
         this.score--
       }
     },
@@ -197,25 +310,21 @@ export default {
 </script>
 
 <style scoped>
-#handle
+.lefthand {
+  background-image:url('../../public/Img/mancheLeft.png');
+}
+.righthand {
+  background-image:url('../../public/Img/manche.png');
+}
+
+.handle
 {
   height: 100px;
   width: 300px;
-  background-image:url('../../public/Img/manche.png');
   background-position: center;
-  background-size: cover;
+  background-size: contain;
+  rotation: 180deg;
   margin: 0 auto;
-}
-.nothing {
-  background-color: transparent;
-}
-.cor
-{
-  display: inline;
-}
-.note
-{
-  display: inline;
 }
 .note > button
 {
@@ -227,14 +336,14 @@ export default {
   background-repeat: no-repeat;
 }
 @media (min-width: 1920px) and (max-width: 2560px){
-  #handle
+  .handle
   {
     height: 200px;
     width: 600px;
   }
 }
 @media (min-width: 750px) and (max-width: 1920px){
-  #handle
+  .handle
   {
     height: 150px;
     width: 450px;

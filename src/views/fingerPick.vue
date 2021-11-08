@@ -2,7 +2,7 @@
   <div id="Quiz">
     <HeaderComponentShort :theme="'Finger\'s Training'"></HeaderComponentShort>
     <LoadingScreenComponent v-show="loading"></LoadingScreenComponent>
-    <Training :hidden="loading"></Training>
+    <Training :style="loading? 'opacity: 0' : ''"></Training>
   </div>
 </template>
 

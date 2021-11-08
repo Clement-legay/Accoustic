@@ -15,7 +15,6 @@ export default {
   components: {
     HeaderComponent,
     Article,
-
   },
 }
 </script>
